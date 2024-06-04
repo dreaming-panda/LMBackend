@@ -64,12 +64,10 @@ llm.encode(input_ids=prompt, position_ids=input_pos, storage_ids=None, attention
 with torch.inference_mode():
         for _ in range(warm_up):
             logits = llm.inference(input_ids=dec, position_ids=dec_pos, storage_ids=cache_pos, attention_mask=dec_mask)
-            logits = llm.inference(input_ids=dec_mix, position_ids=dec_pos_mix, storage_ids=cache_pos_mix, attention_mask=dec_mask_mix)
         torch.cuda.synchronize()
         t1 = time.perf_counter()
         for _ in range(T):
             logits = llm.inference(input_ids=dec, position_ids=dec_pos, storage_ids=cache_pos, attention_mask=dec_mask)
-            logits = llm.inference(input_ids=dec_mix, position_ids=dec_pos_mix, storage_ids=cache_pos_mix, attention_mask=dec_mask_mix)
         torch.cuda.synchronize()
         t2 = time.perf_counter()
 
